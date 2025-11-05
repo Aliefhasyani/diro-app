@@ -1,10 +1,9 @@
 import Footer from "@/components/footer-diro";
 import Navbar from "@/components/navbar-home";
-import { Link } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 
 interface Timeslot {
   id: number;
-  day: string;
   start_time: string;
   end_time: string;
 }
@@ -12,7 +11,7 @@ interface Timeslot {
 interface Court {
   id: number;
   name: string;
-  price: number | string; 
+  price: number | string;
 }
 
 interface PaymentProps {
@@ -21,8 +20,8 @@ interface PaymentProps {
 }
 
 export default function Payment({ timeslots, court }: PaymentProps) {
-  const fee = 2500; 
-  const total = Number(court.price) + fee; 
+  const fee = 2500;
+  const total = Number(court.price) + fee;
 
   const formatIDR = (amount: number) =>
     amount.toLocaleString("id-ID", {
@@ -31,12 +30,22 @@ export default function Payment({ timeslots, court }: PaymentProps) {
       minimumFractionDigits: 0,
     });
 
+
+  const { data, setData, post, processing, errors } = useForm({
+    date: "",
+    timeslot_id: "",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    post(`/reservations/${court.id}/payment/finish`);
+  };
+
   return (
     <>
       <title>Payment | Diro</title>
       <Navbar />
       <div className="min-h-screen bg-white py-12">
-
         <div className="text-center mt-8 px-8">
           <h1 className="font-[Quicksand] font-bold text-4xl">
             Complete Your <span className="text-[#D1D3D4]">Reservation</span>
@@ -46,11 +55,12 @@ export default function Payment({ timeslots, court }: PaymentProps) {
           </p>
         </div>
 
-      
         <div className="max-w-2xl mx-auto px-8 mt-12">
-          <div className="bg-[#F5F5F5] rounded-xl p-8 shadow-lg">
-            
-     
+          <form
+            onSubmit={handleSubmit}
+            className="bg-[#F5F5F5] rounded-xl p-8 shadow-lg"
+          >
+       
             <div className="flex justify-center mb-6">
               <img
                 src="/images/shuttlecock.png"
@@ -59,7 +69,6 @@ export default function Payment({ timeslots, court }: PaymentProps) {
               />
             </div>
 
-           
             <div className="bg-white rounded-lg p-6 mb-6 shadow-sm">
               <h2 className="font-[Quicksand] font-bold text-xl mb-3">
                 Booking Details
@@ -68,7 +77,7 @@ export default function Payment({ timeslots, court }: PaymentProps) {
                 <p>{court.name}</p>
                 <p className="font-bold text-black text-lg mt-3">
                   {formatIDR(Number(court.price))}
-                  <span className="text-sm text-[#6B6B6B]"> /jam</span>
+                  <span className="text-sm text-[#6B6B6B]"> /Hour</span>
                 </p>
               </div>
             </div>
@@ -76,32 +85,46 @@ export default function Payment({ timeslots, court }: PaymentProps) {
           
             <div className="mb-6">
               <label className="font-[Quicksand] font-semibold text-base mb-3 block">
-                Select Day
+                Select Date
               </label>
-              <select className="w-full p-4 rounded-lg border-2 border-[#D1D3D4] font-[Quicksand] text-base focus:outline-none focus:border-black transition duration-300 bg-white">
-                {timeslots.map((timeslot) => (
-                  <option key={`day-${timeslot.id}`} value={timeslot.id}>
-                    {timeslot.day}
-                  </option>
-                ))}
-              </select>
+              <input
+                type="date"
+                name="date"
+                value={data.date}
+                onChange={(e) => setData("date", e.target.value)}
+                className="w-full p-4 rounded-lg border-2 border-[#D1D3D4] font-[Quicksand] text-base focus:outline-none focus:border-black transition duration-300 bg-white"
+                required
+              />
+              {errors.date && (
+                <p className="text-red-500 text-sm mt-1">{errors.date}</p>
+              )}
             </div>
 
-           
+       
             <div className="mb-8">
               <label className="font-[Quicksand] font-semibold text-base mb-3 block">
                 Select Time
               </label>
-              <select className="w-full p-4 rounded-lg border-2 border-[#D1D3D4] font-[Quicksand] text-base focus:outline-none focus:border-black transition duration-300 bg-white">
+              <select
+                name="timeslot_id"
+                value={data.timeslot_id}
+                onChange={(e) => setData("timeslot_id", e.target.value)}
+                className="w-full p-4 rounded-lg border-2 border-[#D1D3D4] font-[Quicksand] text-base focus:outline-none focus:border-black transition duration-300 bg-white"
+                required
+              >
+                <option value="">-- Select a Time --</option>
                 {timeslots.map((timeslot) => (
-                  <option key={`time-${timeslot.id}`} value={timeslot.id}>
+                  <option key={timeslot.id} value={timeslot.id}>
                     {timeslot.start_time} - {timeslot.end_time}
                   </option>
                 ))}
               </select>
+              {errors.timeslot_id && (
+                <p className="text-red-500 text-sm mt-1">{errors.timeslot_id}</p>
+              )}
             </div>
 
-            
+           
             <div className="bg-white rounded-lg p-6 mb-6 shadow-sm">
               <div className="flex justify-between items-center font-[Quicksand] mb-2">
                 <span className="text-[#6B6B6B]">Court Rent</span>
@@ -120,18 +143,19 @@ export default function Payment({ timeslots, court }: PaymentProps) {
               </div>
             </div>
 
-            
-            <Link
-              href="/confirm"
+           
+            <button
+              type="submit"
+              disabled={processing}
               className="w-full bg-black text-white font-[Quicksand] font-bold px-6 py-4 rounded-lg hover:scale-105 transition duration-300 ease-in-out shadow-xl flex items-center justify-center text-lg"
             >
-              Reserve Now
-            </Link>
+              {processing ? "Processing..." : "Reserve Now"}
+            </button>
 
             <p className="font-[Quicksand] text-xs text-[#6B6B6B] text-center mt-4">
-              By confirming, You acept our terms and conditions
+              By confirming, you accept our terms and conditions
             </p>
-          </div>
+          </form>
         </div>
       </div>
 

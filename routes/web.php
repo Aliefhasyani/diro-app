@@ -18,9 +18,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-Route::get('/homepage',[HomeController::class,'index'])->name('homepage');
-Route::get('/reservations',[ReservationController::class,'index'])->name('reservations');
-Route::get('/reservations/{id}',[ReservationController::class,'show'])->name('reservation-detail');
-Route::get('/reservations/{id}/payment',[ReservationController::class,'create'])->name('reservation-create');
+Route::get('/homepage', [HomeController::class, 'index'])->name('homepage');
+Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations');
+Route::get('/reservations/{id}', [ReservationController::class, 'show'])->name('reservation-detail');
+Route::get('/reservations/{id}/payment', [ReservationController::class, 'create'])->name('reservation-create');
+Route::post('/reservations/{id}/payment/finish', [ReservationController::class, 'store'])->name('reservation.store');
+
 
 require __DIR__.'/settings.php';
