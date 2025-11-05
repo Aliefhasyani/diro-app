@@ -14,7 +14,7 @@ export default function Navbar() {
 
           <div className="flex items-center justify-center gap-12">
             <Link
-              href="/homepage"
+              href="/"
               className="text-[#000000] hover:underline transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
             >
               HOME

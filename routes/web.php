@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
-Route::get('/', function () {
-    return Inertia::render('welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
-    ]);
-})->name('home');
+// Route::get('/', function () {
+//     return Inertia::render('welcome', [
+//         'canRegister' => Features::enabled(Features::registration()),
+//     ]);
+// })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
@@ -18,11 +18,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-Route::get('/homepage', [HomeController::class, 'index'])->name('homepage');
-Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations');
-Route::get('/reservations/{id}', [ReservationController::class, 'show'])->name('reservation-detail');
-Route::get('/reservations/{id}/payment', [ReservationController::class, 'create'])->name('reservation-create');
-Route::post('/reservations/{id}/payment/finish', [ReservationController::class, 'store'])->name('reservation.store');
+Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('homepage');
+Route::get('/reservations', [ReservationController::class, 'index'])->middleware('auth')->name('reservations');
+Route::get('/reservations/{id}', [ReservationController::class, 'show'])->middleware('auth')->name('reservation-detail');
+Route::get('/reservations/{id}/payment', [ReservationController::class, 'create'])->middleware('auth')->name('reservation-create');
+Route::post('/reservations/{id}/payment/finish', [ReservationController::class, 'store'])->middleware('auth')->name('reservation.store');
 
 
 require __DIR__.'/settings.php';
