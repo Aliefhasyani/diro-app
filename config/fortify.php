@@ -73,7 +73,9 @@ return [
     |
     */
 
-    'home' => '/dashboard',
+    // Redirect path after successful authentication/registration.
+    // Changed to the site's root '/' so users land on the homepage after login/register.
+    'home' => '/',
 
     /*
     |--------------------------------------------------------------------------

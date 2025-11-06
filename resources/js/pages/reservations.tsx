@@ -18,7 +18,7 @@ interface Timeslot {
 }
 
 interface ReservationsProps {
-  // courts can be either an array (legacy) or a paginated object from the server
+
   courts: any;
   timeslots: Timeslot[];
 }
@@ -64,9 +64,7 @@ export default function Reservations({ courts, timeslots }: ReservationsProps) {
             <h2 className="font-[Quicksand] font-bold text-3xl">
               Available Courts
             </h2>
-            <span className="bg-black text-white font-[Quicksand] font-bold px-4 py-1 rounded-full text-sm">
-              {Array.isArray(courts) ? courts.length : courts?.meta?.total ?? 0}
-            </span>
+         
           </div>
 
           {(Array.isArray(courts) ? courts.length > 0 : (courts?.data?.length ?? 0) > 0) ? (

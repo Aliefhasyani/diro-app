@@ -12,7 +12,7 @@ export default function Homepage() {
         if (flash?.success) {
             setMessage(flash.success);
             setMessageType("success");
-            // Auto-hide success message after 5 seconds
+         
             const timer = setTimeout(() => {
                 setMessage(null);
                 setMessageType(null);
@@ -21,7 +21,7 @@ export default function Homepage() {
         } else if (flash?.error) {
             setMessage(flash.error);
             setMessageType("error");
-            // Auto-hide error message after 5 seconds
+        
             const timer = setTimeout(() => {
                 setMessage(null);
                 setMessageType(null);
@@ -34,7 +34,7 @@ export default function Homepage() {
         <>
             <title>Homepage | Diro</title>
             <Navbar />
-            {message && (
+            {/* {message && (
                 <div
                     className={`max-w-2xl mx-auto mt-8 px-6 py-4 rounded-lg text-center font-[Quicksand] text-lg font-semibold ${
                         messageType === "success"
@@ -44,7 +44,7 @@ export default function Homepage() {
                 >
                     {message}
                 </div>
-            )}
+            )} */}
             <div className="text-center mt-15">
                 <p className="font-[Quicksand] font-bold text-4xl">
                     Quick <span className="text-[#D1D3D4]">and</span> Easy Badminton Court Reservations
