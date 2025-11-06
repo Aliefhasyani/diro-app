@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
@@ -18,11 +19,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('homepage');
-Route::get('/reservations', [ReservationController::class, 'index'])->middleware('auth')->name('reservations');
-Route::get('/reservations/{id}', [ReservationController::class, 'show'])->middleware('auth')->name('reservation-detail');
+Route::get('/', [HomeController::class, 'index'])->name('homepage');
+Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations');
+Route::get('/reservations/{id}', [ReservationController::class, 'show'])->name('reservation-detail');
 Route::get('/reservations/{id}/payment', [ReservationController::class, 'create'])->middleware('auth')->name('reservation-create');
 Route::post('/reservations/{id}/payment/finish', [ReservationController::class, 'store'])->middleware('auth')->name('reservation.store');
-
+Route::get('/admin/adminpanel',[AdminController::class,'index'])->middleware(['auth','role:admin']);
 
 require __DIR__.'/settings.php';

@@ -1,6 +1,7 @@
 import Footer from "@/components/footer-diro";
 import Navbar from "@/components/navbar-home";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 
 interface Timeslot {
   id: number;
@@ -20,6 +21,15 @@ interface PaymentProps {
 }
 
 export default function Payment({ timeslots, court }: PaymentProps) {
+  const { flash } = usePage().props as {
+    flash?: { success?: string; error?: string };
+  };
+
+  const [message, setMessage] = useState<string | null>(null);
+  const [messageType, setMessageType] = useState<"success" | "error" | null>(
+    null
+  );
+
   const fee = 2500;
   const total = Number(court.price) + fee;
 
@@ -29,7 +39,6 @@ export default function Payment({ timeslots, court }: PaymentProps) {
       currency: "IDR",
       minimumFractionDigits: 0,
     });
-
 
   const { data, setData, post, processing, errors } = useForm({
     date: "",
@@ -41,10 +50,31 @@ export default function Payment({ timeslots, court }: PaymentProps) {
     post(`/reservations/${court.id}/payment/finish`);
   };
 
+  useEffect(() => {
+    if (flash?.success) {
+      setMessage(flash.success);
+      setMessageType("success");
+    } else if (flash?.error) {
+      setMessage(flash.error);
+      setMessageType("error");
+    } else {
+      setMessage(null);
+      setMessageType(null);
+    }
+  }, [flash]);
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   return (
     <>
       <title>Payment | Diro</title>
       <Navbar />
+
       <div className="min-h-screen bg-white py-12">
         <div className="text-center mt-8 px-8">
           <h1 className="font-[Quicksand] font-bold text-4xl">
@@ -55,12 +85,23 @@ export default function Payment({ timeslots, court }: PaymentProps) {
           </p>
         </div>
 
+        {message && (
+          <div
+            className={`max-w-2xl mx-auto mt-8 px-6 py-4 rounded-lg text-center font-[Quicksand] text-lg font-semibold border transition-all duration-500 ease-in-out transform ${
+              messageType === "success"
+                ? "bg-green-100 text-green-700 border-green-300 animate-fadeInDown"
+                : "bg-red-100 text-red-700 border-red-300 animate-fadeInDown"
+            }`}
+          >
+            {message}
+          </div>
+        )}
+
         <div className="max-w-2xl mx-auto px-8 mt-12">
           <form
             onSubmit={handleSubmit}
             className="bg-[#F5F5F5] rounded-xl p-8 shadow-lg"
           >
-       
             <div className="flex justify-center mb-6">
               <img
                 src="/images/shuttlecock.png"
@@ -82,7 +123,6 @@ export default function Payment({ timeslots, court }: PaymentProps) {
               </div>
             </div>
 
-          
             <div className="mb-6">
               <label className="font-[Quicksand] font-semibold text-base mb-3 block">
                 Select Date
@@ -100,7 +140,6 @@ export default function Payment({ timeslots, court }: PaymentProps) {
               )}
             </div>
 
-       
             <div className="mb-8">
               <label className="font-[Quicksand] font-semibold text-base mb-3 block">
                 Select Time
@@ -112,7 +151,9 @@ export default function Payment({ timeslots, court }: PaymentProps) {
                 className="w-full p-4 rounded-lg border-2 border-[#D1D3D4] font-[Quicksand] text-base focus:outline-none focus:border-black transition duration-300 bg-white"
                 required
               >
-                <option value="">-- Select a Time --</option>
+                <option value="" disabled>
+                  -- Select a Time --
+                </option>
                 {timeslots.map((timeslot) => (
                   <option key={timeslot.id} value={timeslot.id}>
                     {timeslot.start_time} - {timeslot.end_time}
@@ -120,11 +161,12 @@ export default function Payment({ timeslots, court }: PaymentProps) {
                 ))}
               </select>
               {errors.timeslot_id && (
-                <p className="text-red-500 text-sm mt-1">{errors.timeslot_id}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.timeslot_id}
+                </p>
               )}
             </div>
 
-           
             <div className="bg-white rounded-lg p-6 mb-6 shadow-sm">
               <div className="flex justify-between items-center font-[Quicksand] mb-2">
                 <span className="text-[#6B6B6B]">Court Rent</span>
@@ -143,7 +185,6 @@ export default function Payment({ timeslots, court }: PaymentProps) {
               </div>
             </div>
 
-           
             <button
               type="submit"
               disabled={processing}
