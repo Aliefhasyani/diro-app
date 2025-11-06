@@ -1,6 +1,8 @@
 import CourtCard from "@/components/court-card";
 import Footer from "@/components/footer-diro";
 import Navbar from "@/components/navbar-home";
+import { Link } from "@inertiajs/react";
+import { reservations as reservationsRoute } from "@/routes";
 
 interface Court {
   id: number;
@@ -16,7 +18,8 @@ interface Timeslot {
 }
 
 interface ReservationsProps {
-  courts: Court[];
+  // courts can be either an array (legacy) or a paginated object from the server
+  courts: any;
   timeslots: Timeslot[];
 }
 
@@ -53,50 +56,7 @@ export default function Reservations({ courts, timeslots }: ReservationsProps) {
           />
         </div>
 
-        <div className="max-w-6xl mx-auto px-8 mt-10">
-          <div className="bg-[#F5F5F5] rounded-xl p-8 shadow-lg">
-            <h3 className="font-[Quicksand] font-bold text-xl mb-6">
-              Find Your Perfect Court
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <label className="font-[Quicksand] font-semibold text-sm mb-2 block">
-                  Date
-                </label>
-                <input
-                  type="date"
-                  className="w-full p-3 rounded-lg border-2 border-[#D1D3D4] font-[Quicksand] focus:outline-none focus:border-black transition duration-300 bg-white"
-                />
-              </div>
-              <div>
-                <label className="font-[Quicksand] font-semibold text-sm mb-2 block">
-                  Time
-                </label>
-                <select className="w-full p-3 rounded-lg border-2 border-[#D1D3D4] font-[Quicksand] focus:outline-none focus:border-black transition duration-300 bg-white">
-                  {timeslots.map((timeslot) => (
-                    <option key={timeslot.id} value={timeslot.id}>
-                      {timeslot.start_time} - {timeslot.end_time}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="font-[Quicksand] font-semibold text-sm mb-2 block">
-                  Location
-                </label>
-                <select className="w-full p-3 rounded-lg border-2 border-[#D1D3D4] font-[Quicksand] focus:outline-none focus:border-black transition duration-300 bg-white">
-                  <option>All Locations</option>
-                  <option>Downtown Sports Center</option>
-                  <option>Westside Arena</option>
-                  <option>Northpoint Club</option>
-                </select>
-              </div>
-            </div>
-            <button className="bg-black text-white font-[Quicksand] font-bold px-8 py-3 rounded-lg mt-6 hover:scale-105 transition duration-300 ease-in-out shadow-xl">
-              Search Courts
-            </button>
-          </div>
-        </div>
+       
 
       
         <div className="max-w-6xl mx-auto px-8 mt-16 mb-20">
@@ -105,22 +65,53 @@ export default function Reservations({ courts, timeslots }: ReservationsProps) {
               Available Courts
             </h2>
             <span className="bg-black text-white font-[Quicksand] font-bold px-4 py-1 rounded-full text-sm">
-              {courts.length}
+              {Array.isArray(courts) ? courts.length : courts?.meta?.total ?? 0}
             </span>
           </div>
 
-          {courts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {courts.map((court) => (
-                <CourtCard
-                  key={court.id}
-                  id={court.id}
-                  name={court.name}
-                  price={formatPrice(court.price)}
-                  image_path={`/images/${court.image_path}`}
-                />
-              ))}
-            </div>
+          {(Array.isArray(courts) ? courts.length > 0 : (courts?.data?.length ?? 0) > 0) ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {(Array.isArray(courts) ? courts : courts.data).map((court: any) => (
+                  <CourtCard
+                    key={court.id}
+                    id={court.id}
+                    name={court.name}
+                    price={formatPrice(court.price)}
+                    image_path={`/images/${court.image_path}`}
+                  />
+                ))}
+              </div>
+
+              {/* Pagination controls (if paginator provided) */}
+              { !Array.isArray(courts) && courts?.meta && (
+                <div className="flex items-center justify-center gap-3 mt-8">
+                  <Link
+                    href={reservationsRoute({ query: { page: Math.max(1, (courts.meta.current_page || 1) - 1) } }).url}
+                    className={`px-4 py-2 rounded border ${courts.meta.current_page <= 1 ? 'opacity-50 pointer-events-none' : ''}`}
+                  >
+                    Prev
+                  </Link>
+
+                  {Array.from({ length: courts.meta.last_page }, (_, i) => i + 1).map((p) => (
+                    <Link
+                      key={p}
+                      href={reservationsRoute({ query: { page: p } }).url}
+                      className={`px-3 py-2 rounded border ${courts.meta.current_page === p ? 'bg-black text-white' : ''}`}
+                    >
+                      {p}
+                    </Link>
+                  ))}
+
+                  <Link
+                    href={reservationsRoute({ query: { page: Math.min(courts.meta.last_page || 1, (courts.meta.current_page || 1) + 1) } }).url}
+                    className={`px-4 py-2 rounded border ${courts.meta.current_page >= (courts.meta.last_page || 1) ? 'opacity-50 pointer-events-none' : ''}`}
+                  >
+                    Next
+                  </Link>
+                </div>
+              )}
+            </>
           ) : (
             <div className="text-center py-16 bg-[#F5F5F5] rounded-xl">
               <p className="font-[Quicksand] text-xl text-[#6B6B6B] mb-2">
