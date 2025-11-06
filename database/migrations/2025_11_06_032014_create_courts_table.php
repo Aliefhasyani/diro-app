@@ -6,24 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('timeslots', function (Blueprint $table) {
+        Schema::create('courts', function (Blueprint $table) {
             $table->id();
-            $table->time('start-time');   
-            $table->time('end-time');   
+            $table->string('name');
             $table->timestamps();
+            $table->string('image_path');
+            $table->decimal('price', 10, 2);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('timeslots');
+        Schema::dropIfExists('courts');
     }
 };
