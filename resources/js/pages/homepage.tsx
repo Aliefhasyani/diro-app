@@ -4,47 +4,13 @@ import { Link, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
 export default function Homepage() {
-    const { flash } = usePage().props as { flash?: { success?: string; error?: string } };
-    const [message, setMessage] = useState<string | null>(null);
-    const [messageType, setMessageType] = useState<"success" | "error" | null>(null);
 
-    useEffect(() => {
-        if (flash?.success) {
-            setMessage(flash.success);
-            setMessageType("success");
-         
-            const timer = setTimeout(() => {
-                setMessage(null);
-                setMessageType(null);
-            }, 5000);
-            return () => clearTimeout(timer);
-        } else if (flash?.error) {
-            setMessage(flash.error);
-            setMessageType("error");
-        
-            const timer = setTimeout(() => {
-                setMessage(null);
-                setMessageType(null);
-            }, 5000);
-            return () => clearTimeout(timer);
-        }
-    }, [flash]);
 
     return (
         <>
             <title>Homepage | Diro</title>
             <Navbar />
-            {/* {message && (
-                <div
-                    className={`max-w-2xl mx-auto mt-8 px-6 py-4 rounded-lg text-center font-[Quicksand] text-lg font-semibold ${
-                        messageType === "success"
-                            ? "bg-green-100 text-green-700 border border-green-300"
-                            : "bg-red-100 text-red-700 border border-red-300"
-                    }`}
-                >
-                    {message}
-                </div>
-            )} */}
+        
             <div className="text-center mt-15">
                 <p className="font-[Quicksand] font-bold text-4xl">
                     Quick <span className="text-[#D1D3D4]">and</span> Easy Badminton Court Reservations

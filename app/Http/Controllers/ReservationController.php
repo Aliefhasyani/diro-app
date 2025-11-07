@@ -14,8 +14,8 @@ use Inertia\Inertia;
 class ReservationController extends Controller
 {
     public function index(){
-        // Use pagination so frontend can render pages instead of returning all records
-        $courts = Court::paginate(6);
+       
+        $courts = Court::all();
         $timeslots = TimeSlot::all();
         return Inertia::render('reservations', compact('courts', 'timeslots'));
     }
