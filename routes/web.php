@@ -13,11 +13,11 @@ use Laravel\Fortify\Features;
 //     ]);
 // })->name('home');
 
-// Route::middleware(['auth', 'verified'])->group(function () {
-//     Route::get('dashboard', function () {
-//         return Inertia::render('dashboard');
-//     })->name('dashboard');
-// });
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('dashboard', function () {
+        return Inertia::render('dashboard');
+    })->name('dashboard');
+});
 
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
 Route::get('/about', [HomeController::class, 'about'])->name('about');

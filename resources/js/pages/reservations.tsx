@@ -100,9 +100,7 @@ export default function Reservations({ courts, timeslots }: ReservationsProps) {
               <p className="font-[Quicksand] font-bold text-2xl text-black mb-2">
                 No Courts Available
               </p>
-              <p className="font-[Quicksand] text-base text-[#6B6B6B] mb-6">
-                We couldn't find any courts matching your criteria
-              </p>
+             
        
             </div>
           )}
