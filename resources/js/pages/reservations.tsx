@@ -103,15 +103,7 @@ export default function Reservations({ courts, timeslots }: ReservationsProps) {
               <p className="font-[Quicksand] text-base text-[#6B6B6B] mb-6">
                 We couldn't find any courts matching your criteria
               </p>
-              <button
-                onClick={() => {
-                  setSelectedDate("");
-                  setSelectedTime("");
-                }}
-                className="bg-black text-white font-[Quicksand] font-bold px-8 py-3 rounded-lg hover:scale-105 transition duration-300"
-              >
-                Clear Filters
-              </button>
+       
             </div>
           )}
         </div>

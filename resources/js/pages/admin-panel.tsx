@@ -257,7 +257,7 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
                         >
                           <div className="text-6xl mb-4">🏸</div>
                           <p className="font-bold text-xl text-[#6B6B6B]">
-                            No reservations found
+                            No reservations 
                           </p>
                         </td>
                       </tr>
