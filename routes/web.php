@@ -26,6 +26,8 @@ Route::get('/reservations/{id}', [ReservationController::class, 'show'])->name('
 Route::get('/reservations/{id}/payment', [ReservationController::class, 'create'])->middleware('auth')->name('reservation-create');
 Route::post('/reservations/{id}/payment/finish', [ReservationController::class, 'store'])->middleware('auth')->name('reservation.store');
 Route::get('/admin/adminpanel',[AdminController::class,'index'])->name('admin.panel')->middleware(['auth','role:admin']);
+Route::get('/admin/adminpanel/users',[AdminController::class,'create'])->name('admin.create')->middleware(['auth','role:admin']);
+Route::post('/admin/adminpanel/users/create',[AdminController::class,'store'])->name('admin.store')->middleware(['auth','role:admin']);
 Route::delete('/admin/adminpanel/{id}',[AdminController::class,'destroy'])->name('admin.delete')->middleware(['auth','role:admin']);
 
 require __DIR__.'/settings.php';

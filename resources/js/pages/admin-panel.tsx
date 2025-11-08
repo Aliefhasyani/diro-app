@@ -136,9 +136,11 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
                 <h2 className="font-[Quicksand] font-bold text-2xl">
                   Users Management
                 </h2>
-                <button className="bg-black text-white font-[Quicksand] font-bold px-6 py-3 rounded-lg hover:scale-105 transition duration-300 shadow-xl">
+                <Link 
+                  href="/admin/adminpanel/users"
+                  className="bg-black text-white font-[Quicksand] font-bold px-6 py-3 rounded-lg hover:scale-105 transition duration-300 shadow-xl">
                   + Add New User
-                </button>
+                </Link>
               </div>
 
               <div className="overflow-x-auto">
