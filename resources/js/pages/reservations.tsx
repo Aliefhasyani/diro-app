@@ -83,7 +83,7 @@ export default function Reservations({ courts, timeslots }: ReservationsProps) {
 
           {courts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {courts.map((court: Court) => (
+              {courts.map((court) => (
                 <CourtCard
                   key={court.id}
                   id={court.id}

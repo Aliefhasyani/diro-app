@@ -1,8 +1,12 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
 export default function Navbar() {
   const [isAccountOpen, setIsAccountOpen] = useState(false);
+
+
+  const { props }: any = usePage();
+  const user = props.auth?.user; 
 
   return (
     <>
@@ -10,7 +14,8 @@ export default function Navbar() {
         <div className="bg-[#F5F5F5] flex items-center justify-between px-8 w-auto h-20 font-[Quicksand] text-2xl font-bold">
           <Link 
             href="/"
-            className="tracking-[0.1em] font-[Quicksand]">
+            className="tracking-[0.1em] font-[Quicksand]"
+          >
             DIRO
           </Link>
 
@@ -28,6 +33,15 @@ export default function Navbar() {
             >
               RESERVATIONS
             </Link>
+
+            {user && user.role === "admin" && (
+              <Link
+                href="/admin/adminpanel"
+                className="text-[#63A361] hover:underline transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+              >
+                ADMIN PANEL
+              </Link>
+            )}
 
             <div className="relative">
               <button
@@ -52,24 +66,43 @@ export default function Navbar() {
                 </svg>
               </button>
 
-        
               {isAccountOpen && (
                 <div className="absolute right-0 mt-4 w-48 bg-white rounded-lg shadow-xl border-2 border-[#F5F5F5] overflow-hidden z-50">
-                  <Link
-                    href="/login"
-                    className="block px-6 py-3 text-base font-[Quicksand] font-semibold text-[#000000] hover:bg-[#F5F5F5] transition duration-300"
-                    onClick={() => setIsAccountOpen(false)}
-                  >
-                    Login
-                  </Link>
-                  <div className="border-t border-[#F5F5F5]"></div>
-                  <Link
-                    href="/register"
-                    className="block px-6 py-3 text-base font-[Quicksand] font-semibold text-[#000000] hover:bg-[#F5F5F5] transition duration-300"
-                    onClick={() => setIsAccountOpen(false)}
-                  >
-                    Register
-                  </Link>
+                  {!user ? (
+                    <>
+                      <Link
+                        href="/login"
+                        className="block px-6 py-3 text-base font-[Quicksand] font-semibold text-[#000000] hover:bg-[#F5F5F5] transition duration-300"
+                        onClick={() => setIsAccountOpen(false)}
+                      >
+                        Login
+                      </Link>
+                      <div className="border-t border-[#F5F5F5]"></div>
+                      <Link
+                        href="/register"
+                        className="block px-6 py-3 text-base font-[Quicksand] font-semibold text-[#000000] hover:bg-[#F5F5F5] transition duration-300"
+                        onClick={() => setIsAccountOpen(false)}
+                      >
+                        Register
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <p className="block px-6 py-3 text-base font-[Quicksand] font-semibold text-[#000000]">
+                        Hi, {user.name}
+                      </p>
+                      <div className="border-t border-[#F5F5F5]"></div>
+                      <Link
+                        href="/logout"
+                        method="post"
+                        as="button"
+                        className="block w-full text-left px-6 py-3 text-base font-[Quicksand] font-semibold text-[#000000] hover:bg-[#F5F5F5] transition duration-300"
+                        onClick={() => setIsAccountOpen(false)}
+                      >
+                        Logout
+                      </Link>
+                    </>
+                  )}
                 </div>
               )}
             </div>
