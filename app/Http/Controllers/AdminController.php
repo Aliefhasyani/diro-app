@@ -15,4 +15,16 @@ class AdminController extends Controller
         
         return Inertia::render('admin-panel',compact('users','reservations'));
     }
+
+    public function destroy($id){
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        return redirect()->route('admin.panel');
+    }
+
+    public function create(){
+        return Inertia::render('user-create');
+    }
 }

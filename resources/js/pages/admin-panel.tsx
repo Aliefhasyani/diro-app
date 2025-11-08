@@ -1,6 +1,6 @@
 import Navbar from "../components/navbar-home";
 import { useState } from "react";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 
 interface User {
   id: number;
@@ -36,7 +36,6 @@ interface Reservation {
   user: User;
   court: Court;
   timeslot: Timeslot;
-
 }
 
 interface AdminProps {
@@ -132,7 +131,6 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
 
         <div className="max-w-6xl mx-auto px-8">
           {activeTab === "users" ? (
-          
             <div className="bg-white rounded-xl p-8 shadow-lg border-2 border-[#F5F5F5]">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="font-[Quicksand] font-bold text-2xl">
@@ -147,10 +145,11 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="border-b-2 border-[#F5F5F5]">
-                      <th className="p-4 text-left font-[Quicksand]">ID</th>
-                      <th className="p-4 text-left font-[Quicksand]">Name</th>
-                      <th className="p-4 text-left font-[Quicksand]">Email</th>
-                      <th className="p-4 text-left font-[Quicksand]">Role</th>
+                      <th className="p-4 text-left font-[Quicksand] font-bold">ID</th>
+                      <th className="p-4 text-left font-[Quicksand] font-bold">Name</th>
+                      <th className="p-4 text-left font-[Quicksand] font-bold">Email</th>
+                      <th className="p-4 text-left font-[Quicksand] font-bold">Role</th>
+                      <th className="p-4 text-center font-[Quicksand] font-bold">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -158,21 +157,42 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
                       users.map((user) => (
                         <tr
                           key={user.id}
-                          className="border-b border-[#F5F5F5] hover:bg-[#FAFAFA]"
+                          className="border-b border-[#F5F5F5] hover:bg-[#FAFAFA] transition duration-200"
                         >
                           <td className="p-4 font-[Quicksand]">{user.id}</td>
-                          <td className="p-4 font-[Quicksand]">{user.name}</td>
-                          <td className="p-4 font-[Quicksand]">{user.email}</td>
-                          <td className="p-4 font-[Quicksand]">{user.role}</td>
+                          <td className="p-4 font-[Quicksand] font-semibold">{user.name}</td>
+                          <td className="p-4 font-[Quicksand] text-[#6B6B6B]">{user.email}</td>
+                          <td className="p-4 font-[Quicksand]">
+                            <span className="bg-[#F5F5F5] px-3 py-1 rounded-full text-sm font-semibold">
+                              {user.role}
+                            </span>
+                          </td>
+                          <td className="p-4">
+                            <div className="flex items-center justify-center">
+                              <button
+                                onClick={() => {
+                                  if (confirm(`Delete user "${user.name}"?`)) {
+                                    router.delete(`/admin/adminpanel/${user.id}`);
+                                  }
+                                }}
+                                className="bg-red-500 text-white font-[Quicksand] font-semibold px-4 py-2 rounded-lg hover:bg-red-600 hover:scale-105 transition duration-300 shadow-md flex items-center gap-2 cursor-pointer"
+                              >
+                                🗑️ Delete
+                              </button>
+                            </div>
+                          </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
                         <td
-                          colSpan={4}
-                          className="text-center py-12 font-[Quicksand]"
+                          colSpan={5}
+                          className="text-center py-16 font-[Quicksand]"
                         >
-                          No users found
+                          <div className="text-5xl mb-4">👥</div>
+                          <p className="font-bold text-xl text-[#6B6B6B]">
+                            No users found
+                          </p>
                         </td>
                       </tr>
                     )}
@@ -181,7 +201,6 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
               </div>
             </div>
           ) : (
-        
             <div className="bg-white rounded-xl p-8 shadow-lg border-2 border-[#F5F5F5]">
               <h2 className="font-[Quicksand] font-bold text-2xl mb-6">
                 Reservations Management
@@ -191,12 +210,12 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="border-b-2 border-[#F5F5F5]">
-                      <th className="p-4 text-left font-[Quicksand]">ID</th>
-                      <th className="p-4 text-left font-[Quicksand]">User</th>
-                      <th className="p-4 text-left font-[Quicksand]">Court</th>
-                      <th className="p-4 text-left font-[Quicksand]">Timeslot</th>
-                      <th className="p-4 text-left font-[Quicksand]">Date</th>
-                      <th className="p-4 text-left font-[Quicksand]">Status</th>
+                      <th className="p-4 text-left font-[Quicksand] font-bold">ID</th>
+                      <th className="p-4 text-left font-[Quicksand] font-bold">User</th>
+                      <th className="p-4 text-left font-[Quicksand] font-bold">Court</th>
+                      <th className="p-4 text-left font-[Quicksand] font-bold">Timeslot</th>
+                      <th className="p-4 text-left font-[Quicksand] font-bold">Date</th>
+                      <th className="p-4 text-left font-[Quicksand] font-bold">Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -204,27 +223,40 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
                       reservations.map((r) => (
                         <tr
                           key={r.id}
-                          className="border-b border-[#F5F5F5] hover:bg-[#FAFAFA]"
+                          className="border-b border-[#F5F5F5] hover:bg-[#FAFAFA] transition duration-200"
                         >
                           <td className="p-4 font-[Quicksand]">{r.id}</td>
-                          <td className="p-4 font-[Quicksand]">{r.user.name}</td>
-                          <td className="p-4 font-[Quicksand]">
-                            {r.court.name}
-                          </td>
-                          <td className="p-4 font-[Quicksand]">
+                          <td className="p-4 font-[Quicksand] font-semibold">{r.user.name}</td>
+                          <td className="p-4 font-[Quicksand]">{r.court.name}</td>
+                          <td className="p-4 font-[Quicksand] text-[#6B6B6B]">
                             {r.timeslot.start_time} - {r.timeslot.end_time}
                           </td>
                           <td className="p-4 font-[Quicksand]">{r.date}</td>
-                          <td className="p-4 font-[Quicksand]">{r.status}</td>
+                          <td className="p-4 font-[Quicksand]">
+                            <span
+                              className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                                r.status.toLowerCase() === "confirmed"
+                                  ? "bg-green-100 text-green-700"
+                                  : r.status.toLowerCase() === "pending"
+                                  ? "bg-yellow-100 text-yellow-700":
+                                   ""
+                              }`}
+                            >
+                              {r.status}
+                            </span>
+                          </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
                         <td
                           colSpan={6}
-                          className="text-center py-12 font-[Quicksand]"
+                          className="text-center py-16 font-[Quicksand]"
                         >
-                          No reservations found
+                          <div className="text-6xl mb-4">🏸</div>
+                          <p className="font-bold text-xl text-[#6B6B6B]">
+                            No reservations found
+                          </p>
                         </td>
                       </tr>
                     )}

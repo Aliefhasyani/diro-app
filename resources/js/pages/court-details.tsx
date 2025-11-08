@@ -60,7 +60,7 @@ export default function CourtDetails({ court }: CourtDetailProps) {
                   
                     <Link
                       href={`/reservations/${court.id}/payment`}
-                      className="bg-black text-white font-[Quicksand] font-bold px-6 py-3 rounded-lg hover:bg-[#333] transition duration-300"
+                      className="bg-black text-white font-[Quicksand] font-bold px-6 py-3 rounded-lg hover:bg-[#333]  transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
                     >
                     Reserve Now
                     </Link>
