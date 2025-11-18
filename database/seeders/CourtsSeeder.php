@@ -17,26 +17,35 @@ class CourtsSeeder extends Seeder
                 'name' => 'Court 1',
                 'image_path' => './images/court1.png',
                 'price' => 50000,
+                'rating' => 5.0,
             ],
             [
                 'name' => 'Court 2',
                 'image_path' => './images/court1.png',
                 'price' => 60000,
+                'rating' => 4.3,
+
             ],
             [
                 'name' => 'Court 3',
                 'image_path' => './images/court1.png',
                 'price' => 70000,
+                'rating' => 4.7,
+
             ],
             [
                 'name' => 'Court 4',
                 'image_path' => './images/court1.png',
                 'price' => 80000,
+                'rating' => 4.6,
+
             ],
             [
                 'name' => 'Court 5',
                 'image_path' => './images/court1.png',
                 'price' => 90000,
+                'rating' => 4.4,
+
             ],
         ];
 
