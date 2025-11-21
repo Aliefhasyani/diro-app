@@ -13,7 +13,7 @@ class AdminController extends Controller
 {
     public function index(){
         $users = User::all();
-        $reservations = Reservation::with(['user','court','payment','timeslot'])->get();
+        $reservations = Reservation::with(['user','court','timeslot'])->get();
         $courts = Court::all();
         
         return Inertia::render('admin-panel',compact('users','reservations','courts'));

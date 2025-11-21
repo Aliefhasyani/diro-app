@@ -21,11 +21,11 @@ interface Timeslot {
   end_time: string;
 }
 
-interface Payment {
-  id: number;
-  amount: number;
-  status: string;
-}
+// interface Payment {
+//   id: number;
+//   amount: number;
+//   status: string;
+// }
 
 interface Reservation {
   id: number;
@@ -215,7 +215,7 @@ export default function AdminPanel({ users, reservations,courts }: AdminProps) {
                       <th className="p-4 text-left font-[Quicksand] font-bold">Court</th>
                       <th className="p-4 text-left font-[Quicksand] font-bold">Timeslot</th>
                       <th className="p-4 text-left font-[Quicksand] font-bold">Date</th>
-                      <th className="p-4 text-left font-[Quicksand] font-bold">Status</th>
+                      
                     </tr>
                   </thead>
                   <tbody>
@@ -233,17 +233,7 @@ export default function AdminPanel({ users, reservations,courts }: AdminProps) {
                           </td>
                           <td className="p-4 font-[Quicksand]">{r.date}</td>
                           <td className="p-4 font-[Quicksand]">
-                            <span
-                              className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                                r.status.toLowerCase() === "confirmed"
-                                  ? "bg-green-100 text-green-700"
-                                  : r.status.toLowerCase() === "pending"
-                                  ? "bg-yellow-100 text-yellow-700":
-                                   ""
-                              }`}
-                            >
-                              
-                            </span>
+                          
                           </td>
                         </tr>
                       ))

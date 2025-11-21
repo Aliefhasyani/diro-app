@@ -24,24 +24,19 @@ export default function Navbar() {
   return (
     <>
       <nav className="fixed top-0 left-0 w-full z-50 h-20 transition-all backdrop-blur-sm shadow-md  font-[Quicksand]">
-        
-    
-
-        <div 
-          className={`absolute inset-0 bg-white/95 backdrop-blur-sm shadow-md transition-opacity duration-700 ease-in-out ${
-            isScrolled ? "opacity-100" : "opacity-0"
-          }`}
-        />
-
         <div className="relative z-10 h-full mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex items-center justify-between h-full">
-            
+
             <div className="flex-shrink-0">
-              <Link 
-                href="/" 
-                className="text-2xl font-extrabold tracking-[0.15em] text-black hover:opacity-70 transition-opacity"
+              <Link
+                href="/"
+                className="flex items-center hover:opacity-70 transition-opacity"
               >
-                DIRO
+                <img
+                  src="/images/diro-logo.png"
+                  alt="Diro"
+                  className="h-10"
+                />
               </Link>
             </div>
 
@@ -58,8 +53,8 @@ export default function Navbar() {
             </div>
 
             <div className="flex items-center gap-6">
-              
-              {user && user.role === "admin" && (
+
+              {user?.role === "admin" && (
                 <Link
                   href="/admin/adminpanel"
                   className="hidden lg:inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 tracking-wide hover:bg-emerald-200 transition-colors"
@@ -71,17 +66,15 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setIsAccountOpen(!isAccountOpen)}
-                  className={`flex items-center gap-2 transition-colors duration-300 ${
-                    isAccountOpen ? "text-black" : "text-gray-600 hover:text-black"
-                  }`}
+                  className={`flex items-center gap-2 transition-colors duration-300 ${isAccountOpen ? "text-black" : "text-gray-600 hover:text-black"
+                    }`}
                 >
                   <span className="text-lg font-bold tracking-wide hidden sm:block">
-                    {user ? user.name.split(' ')[0] : "Account"}
+                    {user ? user.name?.split(' ')[0] : "Account"}
                   </span>
                   <svg
-                    className={`w-5 h-5 transition-transform duration-300 ${
-                      isAccountOpen ? "rotate-180" : ""
-                    }`}
+                    className={`w-5 h-5 transition-transform duration-300 ${isAccountOpen ? "rotate-180" : ""
+                      }`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -111,10 +104,10 @@ export default function Navbar() {
                       </div>
                     ) : (
                       <div className="py-2">
-                         <div className="px-5 py-3 border-b border-gray-100 bg-gray-50/50">
-                            <p className="text-xs text-gray-500 uppercase tracking-wider font-bold">Signed in as</p>
-                            <p className="text-sm font-bold text-gray-900 truncate">{user.email}</p>
-                         </div>
+                        <div className="px-5 py-3 border-b border-gray-100 bg-gray-50/50">
+                          <p className="text-xs text-gray-500 uppercase tracking-wider font-bold">Signed in as</p>
+                          <p className="text-sm font-bold text-gray-900 truncate">{user.email}</p>
+                        </div>
                         <Link
                           href="/logout"
                           method="post"
@@ -134,7 +127,7 @@ export default function Navbar() {
           </div>
         </div>
 
-       
+
         {isAccountOpen && (
           <div
             className="fixed inset-0 z-0 cursor-default"
@@ -148,16 +141,15 @@ export default function Navbar() {
 
 
 function NavLink({ href, active, children }: { href: string, active?: boolean, children: React.ReactNode }) {
-    return (
-        <Link
-            href={href}
-            className={`text-lg font-bold tracking-wide transition-colors duration-300 ${
-                active 
-                ? "text-black" 
-                : "text-gray-500 hover:text-black"
-            }`}
-        >
-            {children}
-        </Link>
-    );
+  return (
+    <Link
+      href={href}
+      className={`text-lg font-bold tracking-wide transition-colors duration-300 ${active
+          ? "text-black"
+          : "text-gray-500 hover:text-black"
+        }`}
+    >
+      {children}
+    </Link>
+  );
 }
