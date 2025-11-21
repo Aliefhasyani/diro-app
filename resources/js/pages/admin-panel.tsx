@@ -11,6 +11,7 @@ interface User {
 
 interface Court {
   id: number;
+  type:string;
   name: string;
 }
 
@@ -41,9 +42,10 @@ interface Reservation {
 interface AdminProps {
   users: User[];
   reservations: Reservation[];
+  courts:Court[];
 }
 
-export default function AdminPanel({ users, reservations }: AdminProps) {
+export default function AdminPanel({ users, reservations,courts }: AdminProps) {
   const [activeTab, setActiveTab] = useState<"users" | "reservations">("users");
 
   return (
@@ -51,7 +53,7 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
       <title>Admin Panel | Diro</title>
       <Navbar />
 
-      <div className="min-h-screen bg-white pb-20">
+      <div className="min-h-screen bg-white pt-30 pb-20">
         <div className="bg-white py-12 px-8 border-b border-[#F5F5F5]">
           <div className="max-w-6xl mx-auto text-center">
             <img
@@ -71,7 +73,7 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
         <div className="max-w-6xl mx-auto px-8 mt-10 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-[#F5F5F5]">
-              <div className="text-3xl mb-2">👥</div>
+              <div className="text-3xl mb-2"></div>
               <p className="font-[Quicksand] text-sm text-[#6B6B6B] mb-1">
                 Total Users
               </p>
@@ -80,7 +82,7 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
               </p>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-[#F5F5F5]">
-              <div className="text-3xl mb-2">🏸</div>
+              <div className="text-3xl mb-2"></div>
               <p className="font-[Quicksand] text-sm text-[#6B6B6B] mb-1">
                 Total Reservations
               </p>
@@ -89,16 +91,12 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
               </p>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-lg border-2 border-[#F5F5F5]">
-              <div className="text-3xl mb-2">✅</div>
+              <div className="text-3xl mb-2"></div>
               <p className="font-[Quicksand] text-sm text-[#6B6B6B] mb-1">
-                Active Bookings
+                Active Courts
               </p>
               <p className="font-[Quicksand] font-bold text-3xl">
-                {
-                  reservations.filter(
-                    (r) => r.status.toLowerCase() === "confirmed"
-                  ).length
-                }
+                {courts.length}
               </p>
             </div>
           </div>
@@ -114,7 +112,7 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
                   : "bg-transparent text-[#6B6B6B] hover:text-black"
               }`}
             >
-              👥 Users Management
+               Users Management
             </button>
             <button
               onClick={() => setActiveTab("reservations")}
@@ -124,7 +122,7 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
                   : "bg-transparent text-[#6B6B6B] hover:text-black"
               }`}
             >
-              🏸 Reservations Management
+               Reservations Management
             </button>
           </div>
         </div>
@@ -191,7 +189,7 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
                           colSpan={5}
                           className="text-center py-16 font-[Quicksand]"
                         >
-                          <div className="text-5xl mb-4">👥</div>
+                          <div className="text-5xl mb-4"></div>
                           <p className="font-bold text-xl text-[#6B6B6B]">
                             No users found
                           </p>
@@ -244,7 +242,7 @@ export default function AdminPanel({ users, reservations }: AdminProps) {
                                    ""
                               }`}
                             >
-                              {r.status}
+                              
                             </span>
                           </td>
                         </tr>

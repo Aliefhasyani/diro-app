@@ -3,12 +3,13 @@ import { Link } from "@inertiajs/react";
 interface CourtCardProps {
   id: number;
   name: string;
-  price: string;
   image_path: string;
   type:string;
+  price: number;
+  rating:number
 }
 
-export default function CourtCard({ id, name, image_path, price,type }: CourtCardProps) {
+export default function CourtCard({ id, name, image_path, price,type,rating }: CourtCardProps) {
   return (
     <div className="bg-white border-2 border-[#F5F5F5] rounded-xl overflow-hidden hover:border-black transition-all duration-300 shadow-lg hover:shadow-2xl group">
 
@@ -57,6 +58,9 @@ export default function CourtCard({ id, name, image_path, price,type }: CourtCar
               </span>
               <span className="font-[Quicksand] text-[#6B6B6B] text-sm">
                 /hour
+              </span>
+              <span className="font-[Quicksand] font-bold text-3xl text-black">
+                {rating}
               </span>
             </div>
           </div>

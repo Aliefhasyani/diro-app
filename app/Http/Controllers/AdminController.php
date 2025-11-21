@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Court;
 use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,8 +14,9 @@ class AdminController extends Controller
     public function index(){
         $users = User::all();
         $reservations = Reservation::with(['user','court','payment','timeslot'])->get();
+        $courts = Court::all();
         
-        return Inertia::render('admin-panel',compact('users','reservations'));
+        return Inertia::render('admin-panel',compact('users','reservations','courts'));
     }
 
     public function destroy($id){

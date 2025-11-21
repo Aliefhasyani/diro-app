@@ -2,12 +2,14 @@ import CourtCard from "@/components/court-card";
 import Footer from "@/components/footer-diro";
 import Navbar from "@/components/navbar-home";
 import { Link } from "@inertiajs/react";
+import { formatIDR } from "@/lib/formatCurrency";
 
 interface CourtDetail {
   id: number;
   name: string;
   image_path: string;
   price: number;
+  rating:number;
 }
 
 interface CourtDetailProps {
@@ -54,7 +56,7 @@ export default function CourtDetails({ court }: CourtDetailProps) {
                 </p>
                 <div className="flex items-center justify-between mt-6">
                   <span className="font-[Quicksand] font-bold text-2xl">
-                    Rp {court.price.toLocaleString("id-ID")}
+                    {formatIDR(court.price)}
                     <span className="text-sm text-[#6B6B6B]"> /hour</span>
                   </span>
                   
