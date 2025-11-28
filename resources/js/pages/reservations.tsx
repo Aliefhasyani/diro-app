@@ -73,18 +73,19 @@ export default function Reservations({ courts, timeslots }: ReservationsProps) {
                 {filteredCourts.length}
               </span>
 
-              {/* Styled Search Box */}
               <div className="ml-6 relative">
-                <input
-                  type="text"
-                  placeholder="Search a Court..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="font-[Quicksand] px-4 py-2 w-56 md:w-64 rounded-full border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-black transition-all"
-                />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
-                  🔍
-                </span>
+                <form method="GET" action="/reservations">
+                        <input
+                          type="text"
+                          placeholder="Search for a Court..."
+                          value={searchTerm}
+                          name="search"
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="font-[Quicksand] px-4 py-2 w-56 md:w-64 rounded-full border border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-black transition-all"
+                        />
+                      </form>
+
+                
               </div>
             </div>
 

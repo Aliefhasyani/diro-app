@@ -13,26 +13,36 @@ use Inertia\Inertia;
 
 class ReservationController extends Controller
 {
-    public function index(){
-       
-        $courts = Court::all();
-        $timeslots = TimeSlot::all();
-        return Inertia::render('reservations', compact('courts', 'timeslots'));
+    public function index(Request $request)
+    {
+        $query = Court::query();
+
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $courts = $query->get();
+
+
+        return Inertia::render('reservations',compact('courts'));
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $court = Court::findOrFail($id);
         return Inertia::render('court-details', compact('court'));
     }
 
-    public function create($id){
+    public function create($id)
+    {
         $court = Court::findOrFail($id);
         $timeslots = TimeSlot::all();
 
         return Inertia::render('payment', compact('court', 'timeslots'));
     }
 
-    public function store(Request $request, $id){
+    public function store(Request $request, $id)
+    {
         $court = Court::findOrFail($id);
 
         $validated = $request->validate([
