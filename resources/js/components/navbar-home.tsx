@@ -23,14 +23,21 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full z-50 h-20 transition-all backdrop-blur-sm shadow-md  font-[Quicksand]">
+      <nav
+          className={`fixed top-0 left-0 w-full z-50 h-20 transition-all duration-500 font-[Quicksand] 
+            ${isScrolled
+              ? "backdrop-blur-md bg-white/70 shadow-md"
+              : "backdrop-blur-0 bg-transparent shadow-none"
+            }`}
+      >
+
         <div className="relative z-10 h-full mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex items-center justify-between h-full">
 
             <div className="flex-shrink-0">
               <Link
                 href="/"
-                className="flex items-center hover:opacity-70 transition-opacity"
+                className="flex items-center hover:opacity-70 transition-opacity "
               >
                 <img
                   src="/images/diro-logo.png"
@@ -107,6 +114,15 @@ export default function Navbar() {
                         <div className="px-5 py-3 border-b border-gray-100 bg-gray-50/50">
                           <p className="text-xs text-gray-500 uppercase tracking-wider font-bold">Signed in as</p>
                           <p className="text-sm font-bold text-gray-900 truncate">{user.email}</p>
+                          <p className="text-xs text-gray-500 uppercase tracking-wider font-bold mt-3">Your role</p>
+                          {user.role == 'admin' ?(
+                             <p className="text-sm font-bold bg-emerald-100 text-emerald-800 tracking-wide rounded-full hidden lg:inline-flex items-center px-3 py-1 mt-3 ">{user.role}</p>
+                          ):(
+                            <p className="text-sm font-bold bg-[#CBCBCB] text-gray-800 tracking-wide rounded-full hidden lg:inline-flex items-center px-3 py-1 mt-3 ">{user.role}</p>
+                          
+                          )}
+                            
+                          
                         </div>
                         <Link
                           href="/logout"

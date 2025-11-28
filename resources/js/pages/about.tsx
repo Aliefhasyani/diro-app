@@ -8,9 +8,9 @@ export default function About() {
       <title>About | Diro</title>
       <Navbar />
 
-      <div className="min-h-screen bg-white py-12">
+      <div className="min-h-screen bg-white py-12 pt-20  ">
    
-        <div className="bg-gradient-to-b from-[#F5F5F5] to-white py-16 px-8 mb-12">
+        <div className=" py-16 px-8 mb-12">
           <div className="max-w-4xl mx-auto text-center">
             <img
               src="/images/shuttlecock.png"

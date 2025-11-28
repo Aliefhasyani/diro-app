@@ -8,7 +8,7 @@ export default function Homepage() {
             <title>Homepage | Diro</title>
             <Navbar />
 
-            <div className="pt-44 pb-20 px-8  min-h-screen">
+            <div className="pt-44 pb-20 px-8  min-h-screen bg-[#FFFFFE]">
                 <div className="text-center max-w-4xl mx-auto">
                     <p className="font-[Quicksand] font-bold text-5xl md:text-5xl leading-tight">
                         Quick <span className="text-[#D1D3D4]">and</span> Easy Badminton Court Reservations
@@ -59,7 +59,7 @@ export default function Homepage() {
                 </div>
             </div>
 
-       
+
             <div className="py-20 px-8 ">
                 <div className="max-w-6xl mx-auto">
                     <h2 className="font-[Quicksand] font-bold text-4xl text-center mb-16">

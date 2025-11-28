@@ -11,7 +11,7 @@ interface User {
 
 interface Court {
   id: number;
-  type:string;
+  type: string;
   name: string;
 }
 
@@ -20,12 +20,6 @@ interface Timeslot {
   start_time: string;
   end_time: string;
 }
-
-// interface Payment {
-//   id: number;
-//   amount: number;
-//   status: string;
-// }
 
 interface Reservation {
   id: number;
@@ -42,10 +36,10 @@ interface Reservation {
 interface AdminProps {
   users: User[];
   reservations: Reservation[];
-  courts:Court[];
+  courts: Court[];
 }
 
-export default function AdminPanel({ users, reservations,courts }: AdminProps) {
+export default function AdminPanel({ users, reservations, courts }: AdminProps) {
   const [activeTab, setActiveTab] = useState<"users" | "reservations">("users");
 
   return (
@@ -106,23 +100,21 @@ export default function AdminPanel({ users, reservations,courts }: AdminProps) {
           <div className="bg-[#F5F5F5] rounded-xl p-2 inline-flex gap-2">
             <button
               onClick={() => setActiveTab("users")}
-              className={`font-[Quicksand] font-bold px-8 py-3 rounded-lg transition-all duration-300 ${
-                activeTab === "users"
+              className={`font-[Quicksand] font-bold px-8 py-3 rounded-lg transition-all duration-300 ${activeTab === "users"
                   ? "bg-black text-white shadow-lg"
                   : "bg-transparent text-[#6B6B6B] hover:text-black"
-              }`}
+                }`}
             >
-               Users Management
+              Users Management
             </button>
             <button
               onClick={() => setActiveTab("reservations")}
-              className={`font-[Quicksand] font-bold px-8 py-3 rounded-lg transition-all duration-300 ${
-                activeTab === "reservations"
+              className={`font-[Quicksand] font-bold px-8 py-3 rounded-lg transition-all duration-300 ${activeTab === "reservations"
                   ? "bg-black text-white shadow-lg"
                   : "bg-transparent text-[#6B6B6B] hover:text-black"
-              }`}
+                }`}
             >
-               Reservations Management
+              Reservations Management
             </button>
           </div>
         </div>
@@ -134,7 +126,7 @@ export default function AdminPanel({ users, reservations,courts }: AdminProps) {
                 <h2 className="font-[Quicksand] font-bold text-2xl">
                   Users Management
                 </h2>
-                <Link 
+                <Link
                   href="/admin/adminpanel/users"
                   className="bg-black text-white font-[Quicksand] font-bold px-6 py-3 rounded-lg hover:scale-105 transition duration-300 shadow-xl">
                   + Add New User
@@ -215,7 +207,7 @@ export default function AdminPanel({ users, reservations,courts }: AdminProps) {
                       <th className="p-4 text-left font-[Quicksand] font-bold">Court</th>
                       <th className="p-4 text-left font-[Quicksand] font-bold">Timeslot</th>
                       <th className="p-4 text-left font-[Quicksand] font-bold">Date</th>
-                      
+
                     </tr>
                   </thead>
                   <tbody>
@@ -233,7 +225,7 @@ export default function AdminPanel({ users, reservations,courts }: AdminProps) {
                           </td>
                           <td className="p-4 font-[Quicksand]">{r.date}</td>
                           <td className="p-4 font-[Quicksand]">
-                          
+
                           </td>
                         </tr>
                       ))
@@ -245,7 +237,7 @@ export default function AdminPanel({ users, reservations,courts }: AdminProps) {
                         >
                           <div className="text-6xl mb-4">🏸</div>
                           <p className="font-bold text-xl text-[#6B6B6B]">
-                            No reservations 
+                            No reservations
                           </p>
                         </td>
                       </tr>
