@@ -18,4 +18,6 @@ Route::get('/admin/adminpanel/users',[AdminController::class,'create'])->name('a
 Route::post('/admin/adminpanel/users/create',[AdminController::class,'store'])->name('admin.store')->middleware(['auth','role:admin']);
 Route::delete('/admin/adminpanel/{id}',[AdminController::class,'destroy'])->name('admin.delete')->middleware(['auth','role:admin']);
 
+Route::get('/user/edit/{id}',[AdminController::class,'edit'])->name('user.edit')->middleware(['auth','role:admin']);
+
 require __DIR__.'/settings.php';

@@ -45,4 +45,11 @@ class AdminController extends Controller
 
         return redirect()->route('admin.panel');
     }
+
+    public function edit($id){
+        $user = User::findOrFail($id);
+
+        return Inertia::render('user-edit',compact('user'));
+
+    }
 }

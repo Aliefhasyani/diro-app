@@ -169,8 +169,17 @@ export default function AdminPanel({ users, reservations, courts }: AdminProps) 
                                 }}
                                 className="bg-red-500 text-white font-[Quicksand] font-semibold px-4 py-2 rounded-lg hover:bg-red-600 hover:scale-105 transition duration-300 shadow-md flex items-center gap-2 cursor-pointer"
                               >
-                                🗑️ Delete
+                                 Delete User
                               </button>
+                            </div>
+                          </td>
+                          <td className="p-4">
+                            <div className="flex items-center justify-center">
+                              <Link
+                              href={`/user/edit/${user.id}`}
+                              className="bg-yellow-500 text-white font-[Quicksand] font-semibold px-4 py-2 rounded-lg hover:bg-yellow-600 hover:scale-105 transition duration-300 shadow-md flex items-center gap-2 cursor-pointer">
+                                 Edit User
+                              </Link>
                             </div>
                           </td>
                         </tr>
