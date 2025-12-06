@@ -36,16 +36,16 @@ export default function Footer() {
                         <h4 className="font-bold text-lg mb-6">Company</h4>
                         <ul className="space-y-3 text-sm text-[#6B6B6B]">
                             <li>
-                                <Link href="/about" className="hover:text-black transition-colors duration-200">About Us</Link>
+                                <Link href={`/about`} className="hover:text-black transition-colors duration-200">About Us</Link>
                             </li>
                             <li>
-                                <Link href="/contact" className="hover:text-black transition-colors duration-200">Contact Support</Link>
+                                <p className="hover:text-black transition-colors duration-200">Contact Support</p>
                             </li>
                             <li>
-                                <Link href="/terms" className="hover:text-black transition-colors duration-200">Terms of Service</Link>
+                                <p  className="hover:text-black transition-colors duration-200">Terms of Service</p>
                             </li>
                             <li>
-                                <Link href="/privacy" className="hover:text-black transition-colors duration-200">Privacy Policy</Link>
+                                <p className="hover:text-black transition-colors duration-200">Privacy Policy</p>
                             </li>
                         </ul>
                     </div>

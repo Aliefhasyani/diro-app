@@ -37,10 +37,15 @@ interface AdminProps {
   users: User[];
   reservations: Reservation[];
   courts: Court[];
+  isAdmin:boolean;
 }
 
-export default function AdminPanel({ users, reservations, courts }: AdminProps) {
-  const [activeTab, setActiveTab] = useState<"users" | "reservations">("users");
+interface RoleCheck{
+  isAdmin:boolean;
+}
+
+export default function AdminPanel({ users, reservations, courts,isAdmin }: AdminProps) {
+  const [activeTab, setActiveTab] = useState<"users" | "reservations" | "courts">("users");
 
   return (
     <>
@@ -116,6 +121,15 @@ export default function AdminPanel({ users, reservations, courts }: AdminProps) 
             >
               Reservations Management
             </button>
+            <button
+              onClick={() => setActiveTab("courts")}
+              className={`font-[Quicksand] font-bold px-8 py-3 rounded-lg transition-all duration-300 ${activeTab === "courts"
+                  ? "bg-black text-white shadow-lg"
+                  : "bg-transparent text-[#6B6B6B] hover:text-black"
+                }`}
+            >
+              Courts Management
+            </button>
           </div>
         </div>
 
@@ -155,9 +169,15 @@ export default function AdminPanel({ users, reservations, courts }: AdminProps) 
                           <td className="p-4 font-[Quicksand] font-semibold">{user.name}</td>
                           <td className="p-4 font-[Quicksand] text-[#6B6B6B]">{user.email}</td>
                           <td className="p-4 font-[Quicksand]">
-                            <span className="bg-[#F5F5F5] px-3 py-1 rounded-full text-sm font-semibold">
-                              {user.role}
-                            </span>
+                        <span 
+                            className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                              user.role === 'admin' 
+                                ? 'bg-green-100 text-green-900' 
+                                : 'bg-[#F5F5F5] text-gray-900'  
+                            }`}
+                          >
+                            {user.role}
+                        </span>
                           </td>
                           <td className="p-4">
                             <div className="flex items-center justify-center">
@@ -167,7 +187,7 @@ export default function AdminPanel({ users, reservations, courts }: AdminProps) 
                                     router.delete(`/admin/adminpanel/${user.id}`);
                                   }
                                 }}
-                                className="bg-red-500 text-white font-[Quicksand] font-semibold px-4 py-2 rounded-lg hover:bg-red-600 hover:scale-105 transition duration-300 shadow-md flex items-center gap-2 cursor-pointer"
+                                className="bg-red-500 text-white font-[Quicksand] font-semibold px-4 py-2 rounded-lg hover:bg-red-900 hover:scale-105 transition duration-300 shadow-md flex items-center gap-2 cursor-pointer"
                               >
                                  Delete User
                               </button>
@@ -177,7 +197,7 @@ export default function AdminPanel({ users, reservations, courts }: AdminProps) 
                             <div className="flex items-center justify-center">
                               <Link
                               href={`/user/edit/${user.id}`}
-                              className="bg-yellow-500 text-white font-[Quicksand] font-semibold px-4 py-2 rounded-lg hover:bg-yellow-600 hover:scale-105 transition duration-300 shadow-md flex items-center gap-2 cursor-pointer">
+                              className="bg-yellow-500 text-white font-[Quicksand] font-semibold px-4 py-2 rounded-lg hover:bg-yellow-900 hover:scale-105 transition duration-300 shadow-md flex items-center gap-2 cursor-pointer">
                                  Edit User
                               </Link>
                             </div>
@@ -201,7 +221,7 @@ export default function AdminPanel({ users, reservations, courts }: AdminProps) 
                 </table>
               </div>
             </div>
-          ) : (
+          ) : activeTab === "reservations" ? (
             <div className="bg-white rounded-xl p-8 shadow-lg border-2 border-[#F5F5F5]">
               <h2 className="font-[Quicksand] font-bold text-2xl mb-6">
                 Reservations Management
@@ -247,6 +267,78 @@ export default function AdminPanel({ users, reservations, courts }: AdminProps) 
                           <div className="text-6xl mb-4">🏸</div>
                           <p className="font-bold text-xl text-[#6B6B6B]">
                             No reservations
+                          </p>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ) : (
+            <div className="bg-white rounded-xl p-8 shadow-lg border-2 border-[#F5F5F5]">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="font-[Quicksand] font-bold text-2xl">
+                  Courts Management
+                </h2>
+                <Link
+                  href="/admin/adminpanel/courts"
+                  className="bg-black text-white font-[Quicksand] font-bold px-6 py-3 rounded-lg hover:scale-105 transition duration-300 shadow-xl">
+                  + Add New Court
+                </Link>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b-2 border-[#F5F5F5]">
+                      <th className="p-4 text-left font-[Quicksand] font-bold">ID</th>
+                      <th className="p-4 text-left font-[Quicksand] font-bold">Name</th>
+                      <th className="p-4 text-left font-[Quicksand] font-bold">Type</th>
+                      <th className="p-4 text-center font-[Quicksand] font-bold">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {courts.length > 0 ? (
+                      courts.map((court) => (
+                        <tr
+                          key={court.id}
+                          className="border-b border-[#F5F5F5] hover:bg-[#FAFAFA] transition duration-200"
+                        >
+                          <td className="p-4 font-[Quicksand]">{court.id}</td>
+                          <td className="p-4 font-[Quicksand] font-semibold">{court.name}</td>
+                          <td className="p-4 font-[Quicksand] text-[#6B6B6B]">{court.type}</td>
+                          <td className="p-4">
+                            <div className="flex items-center justify-center gap-2">
+                              <Link
+                                href={`/court/edit/${court.id}`}
+                                className="bg-yellow-500 text-white font-[Quicksand] font-semibold px-4 py-2 rounded-lg hover:bg-yellow-900 hover:scale-105 transition duration-300 shadow-md cursor-pointer"
+                              >
+                                Edit
+                              </Link>
+                              <button
+                                onClick={() => {
+                                  if (confirm(`Delete court "${court.name}"?`)) {
+                                    router.delete(`/admin/court/${court.id}`);
+                                  }
+                                }}
+                                className="bg-red-500 text-white font-[Quicksand] font-semibold px-4 py-2 rounded-lg hover:bg-red-900 hover:scale-105 transition duration-300 shadow-md cursor-pointer"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={4}
+                          className="text-center py-16 font-[Quicksand]"
+                        >
+                          <div className="text-6xl mb-4">🏟️</div>
+                          <p className="font-bold text-xl text-[#6B6B6B]">
+                            No courts found
                           </p>
                         </td>
                       </tr>

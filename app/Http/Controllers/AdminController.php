@@ -52,4 +52,18 @@ class AdminController extends Controller
         return Inertia::render('user-edit',compact('user'));
 
     }
+
+    public function update(Request $request,$id){
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'role' => 'required|in:admin,user'
+        ]);
+
+        $user->update($validated);
+
+        return redirect()->route('admin.panel');
+    }
 }

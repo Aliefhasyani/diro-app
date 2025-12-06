@@ -19,5 +19,8 @@ Route::post('/admin/adminpanel/users/create',[AdminController::class,'store'])->
 Route::delete('/admin/adminpanel/{id}',[AdminController::class,'destroy'])->name('admin.delete')->middleware(['auth','role:admin']);
 
 Route::get('/user/edit/{id}',[AdminController::class,'edit'])->name('user.edit')->middleware(['auth','role:admin']);
+Route::put('/user/edit/{id}', [AdminController::class, 'update'])->name('user.update')->middleware(['auth', 'role:admin']);
+
+
 
 require __DIR__.'/settings.php';
